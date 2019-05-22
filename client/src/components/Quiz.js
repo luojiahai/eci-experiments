@@ -36,7 +36,12 @@ function Quiz(props) {
                     counter={props.questionId}
                     total={props.questionTotal}
                 />
-                <Question content={props.question} />
+                <Question 
+                    content={props.instance}
+                    classNames={props.classNames}
+                    attributeNames={props.attributeNames}
+                    categoricalNames={props.categoricalNames}
+                />
                 <ul className="answerOptions">
                     {props.answerOptions.map(renderAnswerOptions)}
                 </ul>
@@ -48,7 +53,7 @@ function Quiz(props) {
 Quiz.propTypes = {
     answer: PropTypes.string.isRequired,
     answerOptions: PropTypes.array.isRequired,
-    question: PropTypes.string.isRequired,
+    instance: PropTypes.object.isRequired,
     questionId: PropTypes.number.isRequired,
     questionTotal: PropTypes.number.isRequired,
     onAnswerSelected: PropTypes.func.isRequired

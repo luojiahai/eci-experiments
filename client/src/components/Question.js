@@ -8,61 +8,109 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+const CustomTableCell = withStyles(theme => ({
+    head: {
+        backgroundColor: '#222',
+        color: theme.palette.common.white,
+        fontSize: 14,
+    },
+    body: {
+        fontSize: 12,
+    },
+}))(TableCell);
+
 const styles = theme => ({
     root: {
-        width: '100%',
-        marginTop: theme.spacing.unit * 3,
+        margin: '25px',
         overflowX: 'auto',
     },
     table: {
         minWidth: 700,
     },
+    row: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.background.default,
+        },
+    },
 });
 
-let id = 0;
-function createData(attribute, subject_value, fact_value, contrast_value) {
-    id += 1;
-    return { id, attribute, subject_value, fact_value, contrast_value };
+const noStyle = {
+    color: 'black'
 }
 
-const rows = [
-    createData('Age', '28.00 < Age <= 37.00', '28.00 < Age <= 37.00', 'Age > 48.00'),
-    createData('Workclass', 'Self-emp-not-inc', 'Self-emp-not-inc', 'Self-emp-not-inc'),
-    createData('Education', 'Bachelors', 'Bachelors', 'Bachelors'),
-    createData('Marital Status', 'Married-civ-spouse', 'Never-married', 'Married-civ-spouse'),
-    createData('Occupation', 'Prof-specialty', 'Prof-specialty', 'Protective-serv'),
-    createData('Relationship', 'Husband', 'Husband', 'Husband'),
-    createData('Race', 'White', 'White', 'White'),
-    createData('Sex', 'Male', 'Male', 'Male'),
-    createData('Hours per week', 'Hours per week <= 40.00', 'Hours per week <= 40.00', 'Hours per week > 45.00'),
-    createData('Country', 'United-States', 'United-States', 'United-States'),
-];
+const factStyle = {
+    color: 'green',
+    fontWeight: 'bold'
+}
+
+const contrastStyle = {
+    color: 'red',
+    fontWeight: 'bold'
+}
 
 function Question(props) {
     const { classes } = props;
 
+    let id = -1;
+    function createData(attribute, subjectValue, factValue, contrastValue) {
+        id += 1;
+        return { id, attribute, subjectValue, factValue, contrastValue };
+    }
+
+    const rows = [];
+
+    const factStyles = []
+    const contrastStyles = []
+    
+    const length = props.attributeNames.length;
+    
+    for (let i = 0; i < length; i++) {
+        var attributeName = props.attributeNames[i];
+        var subjectAttribute = props.content.subject[i];
+        var factAttribute = props.content.fact[i];
+        var contrastAttribute = props.content.contrast[i];
+        var subjectValue = props.categoricalNames[i][subjectAttribute];
+        var factValue = props.categoricalNames[i][factAttribute];
+        var contrastValue = props.categoricalNames[i][contrastAttribute];
+        rows.push(createData(attributeName, subjectValue, factValue, contrastValue));
+        if (factValue === subjectValue) {
+            factStyles.push(noStyle);
+        } else {
+            factStyles.push(factStyle);
+        }
+        if (contrastValue === subjectValue) {
+            contrastStyles.push(noStyle);
+        } else {
+            contrastStyles.push(contrastStyle);
+        }
+    }
+
+    var subjectPred = props.classNames[props.content.subject[length]];
+    var factPred = props.classNames[props.content.fact[length]];
+    var contrastPred = props.classNames[props.content.contrast[length]];
+    rows.push(createData('Prediction (Income)', subjectPred, factPred, contrastPred));
+
     return (
         // <h2 className="question">{props.content}</h2>
-
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
                 <TableRow>
-                    <TableCell><b>Attribute</b></TableCell>
-                    <TableCell align="right">Subject</TableCell>
-                    <TableCell align="right">Fact</TableCell>
-                    <TableCell align="right">Contrast</TableCell>
+                    <CustomTableCell><b>Attribute</b></CustomTableCell>
+                    <CustomTableCell align="right">Subject</CustomTableCell>
+                    <CustomTableCell align="right">Fact</CustomTableCell>
+                    <CustomTableCell align="right">Contrast</CustomTableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
                 {rows.map(row => (
                     <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
+                    <CustomTableCell component="th" scope="row">
                         <b>{row.attribute}</b>
-                    </TableCell>
-                    <TableCell align="right">{row.subject_value}</TableCell>
-                    <TableCell align="right">{row.fact_value}</TableCell>
-                    <TableCell align="right">{row.contrast_value}</TableCell>
+                    </CustomTableCell>
+                    <CustomTableCell align="right">{row.subjectValue}</CustomTableCell>
+                    <CustomTableCell align="right" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+                    <CustomTableCell align="right" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
                     </TableRow>
                 ))}
                 </TableBody>
@@ -72,7 +120,7 @@ function Question(props) {
 }
 
 Question.propTypes = {
-    content: PropTypes.string.isRequired
+    content: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Question);

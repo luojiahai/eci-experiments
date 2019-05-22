@@ -4,7 +4,8 @@ import Result from './components/Result';
 import logo from "./svg/logo.svg";
 import "./App.css";
 
-import quizQuestions from './tempAPI/quizQuestions';
+import dataset from './tempAPI/dataset';
+import instances from './tempAPI/instances';
 
 class App extends Component {
     // constructor(props) {
@@ -21,8 +22,8 @@ class App extends Component {
         this.state = {
             counter: 0,
             questionId: 1,
-            question: '',
-            answerOptions: [],
+            instance: instances[0].instance,
+            answerOptions: instances[0].answers,
             answer: '',
             result: ''
         };
@@ -49,15 +50,14 @@ class App extends Component {
     //     this.callDB();
     // }
 
-    componentDidMount() {
-        // const shuffledAnswerOptions = quizQuestions.map((question) => this.shuffleArray(question.answers));
-        const answerOptions = quizQuestions.map((question) => question.answers);   
+    // componentDidMount() {
+    //     // const shuffledAnswerOptions = instances.map((instance) => this.shuffleArray(instance.answers));
       
-        this.setState({
-            question: quizQuestions[0].question,
-            answerOptions: answerOptions[0]
-        });
-    }
+    //     this.setState({
+    //         instance: instances[0].instance,
+    //         answerOptions: shuffledAnswerOptions[0].answers,
+    //     });
+    // }
 
     // shuffleArray(array) {
     //     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -80,7 +80,7 @@ class App extends Component {
 
     handleAnswerSelected(event) {
         this.setUserAnswer(event.currentTarget.value);
-        if (this.state.questionId < quizQuestions.length) {
+        if (this.state.questionId < instances.length) {
             setTimeout(() => this.setNextQuestion(), 300);
         } else {
             setTimeout(() => this.setResult(), 300);
@@ -99,8 +99,8 @@ class App extends Component {
         this.setState({
             counter: counter,
             questionId: questionId,
-            question: quizQuestions[counter].question,
-            answerOptions: quizQuestions[counter].answers,
+            instance: instances[counter].instance,
+            answerOptions: instances[counter].answers,
             answer: ''
         });
     }
@@ -115,9 +115,12 @@ class App extends Component {
                 answer={this.state.answer}
                 answerOptions={this.state.answerOptions}
                 questionId={this.state.questionId}
-                question={this.state.question}
-                questionTotal={quizQuestions.length}
+                instance={this.state.instance}
+                questionTotal={instances.length}
                 onAnswerSelected={this.handleAnswerSelected}
+                classNames={dataset.classNames}
+                attributeNames={dataset.attributeNames}
+                categoricalNames={dataset.categoricalNames}
             />
         );
     }
