@@ -84,6 +84,6 @@ var quizQuestions = [
             }
         ]
     }
-  ];
+];
   
-  export default quizQuestions;
+export default quizQuestions;

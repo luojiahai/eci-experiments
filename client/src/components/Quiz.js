@@ -5,6 +5,8 @@ import QuestionCount from '../components/QuestionCount';
 import AnswerOption from '../components/AnswerOption';
 import { CSSTransitionGroup } from 'react-transition-group';
 
+import dataset from '../tempAPI/dataset';
+
 function Quiz(props) {
     function renderAnswerOptions(key) {
         return (
@@ -46,7 +48,6 @@ function Quiz(props) {
 Quiz.propTypes = {
     answer: PropTypes.string.isRequired,
     answerOptions: PropTypes.array.isRequired,
-    counter: PropTypes.number.isRequired,
     question: PropTypes.string.isRequired,
     questionId: PropTypes.number.isRequired,
     questionTotal: PropTypes.number.isRequired,
