@@ -31,19 +31,19 @@ class App extends Component {
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
     }
 
-    callAPI() {
-        fetch("http://115.146.92.40:9000/testAPI")
-            .then(res => res.text())
-            .then(res => this.setState({ apiResponse: res }))
-            .catch(err => err);
-    }
+    // callAPI() {
+    //     fetch("http://115.146.92.40:9000/testAPI")
+    //         .then(res => res.text())
+    //         .then(res => this.setState({ apiResponse: res }))
+    //         .catch(err => err);
+    // }
 
-    callDB() {
-        fetch("http://115.146.92.40:9000/testDB")
-            .then(res => res.text())
-            .then(res => this.setState({ dbResponse: res }))
-            .catch(err => err);
-    }
+    // callDB() {
+    //     fetch("http://115.146.92.40:9000/testDB")
+    //         .then(res => res.text())
+    //         .then(res => this.setState({ dbResponse: res }))
+    //         .catch(err => err);
+    // }
 
     // componentDidMount() {
     //     this.callAPI();
