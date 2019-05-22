@@ -34,14 +34,15 @@
 
 .App-logo {
   animation: spin infinite 20s linear;
-  height: 80px;
+  height: 70px;
+  float: left;
 }
 
 .App-header {
   background-color: #222;
   padding: 20px;
   color: white;
-  text-align: center;
+  text-align: left;
 }
 
 .App-intro {
