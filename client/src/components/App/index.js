@@ -12,19 +12,38 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
+import Toolbar from '@material-ui/core/Toolbar';
 import logo from "../../svg/logo.svg";
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
+import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+
+const appBarStyle = {
+    height: '90px',
+    backgroundColor: '#222'
+}
+
 const App = () => (
     <Router>
-        <div className="App">
-            <div className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h2>ECI-EXPERIMENTS</h2>
-                <Navigation />
-            </div>
+        <div>
+            {/* <div className="App-header"> */}
+            <AppBar position="static" style={appBarStyle}>
+                <Toolbar>
+                    <IconButton color="inherit">
+                        <img src={logo} className="App-logo" alt="logo" />
+                    </IconButton>
+                    <Typography variant="h6" color="inherit">
+                        <b>ECI-EXPERIMENTS</b>
+                    </Typography>
+                    <Navigation />
+                </Toolbar>
+            </AppBar>
+            {/* </div> */}
     
             <Route exact path={ROUTES.LANDING} component={LandingPage} />
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
