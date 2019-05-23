@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Quiz from './components/Quiz';
-import Result from './components/Result';
+import Quiz from '../Quiz';
+import Result from '../Result';
 import logo from "./svg/logo.svg";
 import "./App.css";
 
-import dataset from './tempAPI/dataset';
-import instances from './tempAPI/instances';
+import dataset from '../../tempAPI/dataset';
+import instances from '../../tempAPI/instances';
 
 class App extends Component {
     // constructor(props) {
