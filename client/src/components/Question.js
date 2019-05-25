@@ -93,11 +93,9 @@ function Question(props) {
     var subjectPred = props.classNames[props.content.subject[length]];
     var factPred = props.classNames[props.content.fact[length]];
     var contrastPred = props.classNames[props.content.contrast[length]];
-    // rows.push(createData('Prediction (Income)', subjectPred, factPred, contrastPred));
 
     // prediction task
     return (
-        // <h2 className="question">{props.content}</h2>
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
