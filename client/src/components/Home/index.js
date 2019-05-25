@@ -89,9 +89,11 @@ class Home extends Component {
     handleAnswerSelected(event) {
         this.setUserAnswer(event.currentTarget.value);
         if (this.state.questionId < instances.length) {
-            setTimeout(() => this.setNextQuestion(), 300);
+            // setTimeout(() => this.setNextQuestion(), 300);
+            this.setNextQuestion();
         } else {
-            setTimeout(() => this.setResult(), 300);
+            // setTimeout(() => this.setResult(), 300);
+            this.setResult();
         }
     }
 

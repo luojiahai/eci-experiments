@@ -7,7 +7,6 @@ import config from './env'
 class Firebase {
     constructor() {
         app.initializeApp(config);
-        console.log(process.env.REACT_APP_API_KEY)
         
         this.auth = app.auth();
         this.db = app.database();

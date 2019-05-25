@@ -63,6 +63,11 @@ function Question(props) {
     const contrastStyles = []
     
     const length = props.attributeNames.length;
+
+    // const min = Math.ceil(0);
+    // const max = Math.floor(2);
+    // const rand = Math.floor(Math.random() * (max - min)) + min;
+    // console.log(rand)
     
     for (let i = 0; i < length; i++) {
         var attributeName = props.attributeNames[i];
@@ -85,11 +90,12 @@ function Question(props) {
         }
     }
 
-    // var subjectPred = props.classNames[props.content.subject[length]];
-    // var factPred = props.classNames[props.content.fact[length]];
-    // var contrastPred = props.classNames[props.content.contrast[length]];
+    var subjectPred = props.classNames[props.content.subject[length]];
+    var factPred = props.classNames[props.content.fact[length]];
+    var contrastPred = props.classNames[props.content.contrast[length]];
     // rows.push(createData('Prediction (Income)', subjectPred, factPred, contrastPred));
 
+    // prediction task
     return (
         // <h2 className="question">{props.content}</h2>
         <Paper className={classes.root}>
@@ -98,8 +104,6 @@ function Question(props) {
                 <TableRow>
                     <CustomTableCell><b>Attribute</b></CustomTableCell>
                     <CustomTableCell align="left">Subject</CustomTableCell>
-                    {/* <CustomTableCell align="left">Fact</CustomTableCell>
-                    <CustomTableCell align="left">Contrast</CustomTableCell> */}
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -109,14 +113,49 @@ function Question(props) {
                         <b>{row.attribute}</b>
                     </CustomTableCell>
                     <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
-                    {/* <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
-                    <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell> */}
                     </TableRow>
                 ))}
                 </TableBody>
             </Table>
         </Paper>
     );
+    // verification task
+    // return (
+    //     // <h2 className="question">{props.content}</h2>
+    //     <Paper className={classes.root}>
+    //         <Table className={classes.table}>
+    //             <TableHead>
+    //             <TableRow>
+    //                 <CustomTableCell><b>Attribute</b></CustomTableCell>
+    //                 <CustomTableCell align="left">Subject</CustomTableCell>
+    //                 <CustomTableCell align="left">Fact</CustomTableCell>
+    //                 <CustomTableCell align="left">Contrast</CustomTableCell>
+    //             </TableRow>
+    //             </TableHead>
+    //             <TableBody>
+    //             {rows.map(row => (
+    //                 <TableRow key={row.id}>
+    //                 <CustomTableCell component="th" scope="row">
+    //                     <b>{row.attribute}</b>
+    //                 </CustomTableCell>
+    //                 <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+    //                 <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+    //                 <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+    //                 </TableRow>
+    //             ))}
+    //             <TableRow key={length}>
+    //                 <CustomTableCell component="th" scope="row">
+    //                     <b>Prediction (Income)</b>
+    //                 </CustomTableCell>
+    //                 <CustomTableCell align="left">{subjectPred}</CustomTableCell>
+    //                 <CustomTableCell align="left">{factPred}</CustomTableCell>
+    //                 <CustomTableCell align="left">{contrastPred}</CustomTableCell>
+    //                 </TableRow>
+    //             </TableBody>
+    //         </Table>
+    //     </Paper>
+    // );
+    
 }
 
 Question.propTypes = {
