@@ -72,7 +72,6 @@ var dataset = {
             'United-States', 'Vietnam', 'Yugoslavia'
         ]
     ]
-
 }
 
 export default dataset;

@@ -15,7 +15,7 @@ const CustomTableCell = withStyles(theme => ({
         fontSize: 14,
     },
     body: {
-        fontSize: 12,
+        fontSize: 14,
     },
 }))(TableCell);
 
@@ -85,10 +85,10 @@ function Question(props) {
         }
     }
 
-    var subjectPred = props.classNames[props.content.subject[length]];
-    var factPred = props.classNames[props.content.fact[length]];
-    var contrastPred = props.classNames[props.content.contrast[length]];
-    rows.push(createData('Prediction (Income)', subjectPred, factPred, contrastPred));
+    // var subjectPred = props.classNames[props.content.subject[length]];
+    // var factPred = props.classNames[props.content.fact[length]];
+    // var contrastPred = props.classNames[props.content.contrast[length]];
+    // rows.push(createData('Prediction (Income)', subjectPred, factPred, contrastPred));
 
     return (
         // <h2 className="question">{props.content}</h2>
@@ -97,9 +97,9 @@ function Question(props) {
                 <TableHead>
                 <TableRow>
                     <CustomTableCell><b>Attribute</b></CustomTableCell>
-                    <CustomTableCell align="right">Subject</CustomTableCell>
-                    <CustomTableCell align="right">Fact</CustomTableCell>
-                    <CustomTableCell align="right">Contrast</CustomTableCell>
+                    <CustomTableCell align="left">Subject</CustomTableCell>
+                    {/* <CustomTableCell align="left">Fact</CustomTableCell>
+                    <CustomTableCell align="left">Contrast</CustomTableCell> */}
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -108,9 +108,9 @@ function Question(props) {
                     <CustomTableCell component="th" scope="row">
                         <b>{row.attribute}</b>
                     </CustomTableCell>
-                    <CustomTableCell align="right">{row.subjectValue}</CustomTableCell>
-                    <CustomTableCell align="right" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
-                    <CustomTableCell align="right" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+                    <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                    {/* <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+                    <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell> */}
                     </TableRow>
                 ))}
                 </TableBody>

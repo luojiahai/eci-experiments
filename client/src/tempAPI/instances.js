@@ -8,11 +8,11 @@ var instances = [
         answers: [
             {
                 type: "Correct",
-                content: "Satisfied"
+                content: "<=50K"
             },
             {
                 type: "Incorrect",
-                content: "Not Satisfied"
+                content: ">50K"
             }
         ]
     },
@@ -25,11 +25,11 @@ var instances = [
         answers: [
             {
                 type: "Correct",
-                content: "Satisfied"
+                content: "<=50K"
             },
             {
                 type: "Incorrect",
-                content: "Not Satisfied"
+                content: ">50K"
             }
         ]
     },
@@ -42,11 +42,11 @@ var instances = [
         answers: [
             {
                 type: "Correct",
-                content: "Satisfied"
+                content: "<=50K"
             },
             {
                 type: "Incorrect",
-                content: "Not Satisfied"
+                content: ">50K"
             }
         ]
     },
@@ -59,11 +59,11 @@ var instances = [
         answers: [
             {
                 type: "Correct",
-                content: "Satisfied"
+                content: "<=50K"
             },
             {
                 type: "Incorrect",
-                content: "Not Satisfied"
+                content: ">50K"
             }
         ]
     },
@@ -76,11 +76,11 @@ var instances = [
         answers: [
             {
                 type: "Correct",
-                content: "Satisfied"
+                content: "<=50K"
             },
             {
                 type: "Incorrect",
-                content: "Not Satisfied"
+                content: ">50K"
             }
         ]
     }
