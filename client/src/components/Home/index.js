@@ -33,7 +33,8 @@ class Home extends Component {
             instance: instances[0].instance,
             answerOptions: instances[0].answers,
             answer: '',
-            result: ''
+            result: '',
+            isTrained: false
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -89,11 +90,11 @@ class Home extends Component {
     handleAnswerSelected(event) {
         this.setUserAnswer(event.currentTarget.value);
         if (this.state.questionId < instances.length) {
-            // setTimeout(() => this.setNextQuestion(), 300);
-            this.setNextQuestion();
+            setTimeout(() => this.setNextQuestion(), 300);
+            // this.setNextQuestion();
         } else {
-            // setTimeout(() => this.setResult(), 300);
-            this.setResult();
+            setTimeout(() => this.setResult(), 300);
+            // this.setResult();
         }
     }
 
@@ -161,7 +162,6 @@ class Home extends Component {
             //     <p className="App-intro">{this.state.apiResponse}</p>
             //     <p className="App-intro">{this.state.dbResponse}</p>
             // </div>
-            
             this.state.result ? this.renderResult() : this.renderQuiz()
         );
     }
