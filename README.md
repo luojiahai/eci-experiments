@@ -8,4 +8,10 @@ https://medium.freecodecamp.org/create-a-fullstack-react-express-mongodb-app-usi
 
 3. ```cd ..```
 
-4. ```docker-compose up -d```
+4. ```cd client```
+
+5. ```npm install```
+
+6. ```cd ..```
+
+7. ```docker-compose up -d```
