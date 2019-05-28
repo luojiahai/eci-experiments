@@ -48,7 +48,7 @@ const contrastStyle = {
     fontWeight: 'bold'
 }
 
-function Question(props) {
+function Instance(props) {
     const { classes } = props;
 
     let id = -1;
@@ -94,29 +94,68 @@ function Question(props) {
     var factPred = props.classNames[props.content.fact[length]];
     var contrastPred = props.classNames[props.content.contrast[length]];
 
-    // prediction task
-    return (
-        <Paper className={classes.root}>
-            <Table className={classes.table}>
-                <TableHead>
-                <TableRow>
-                    <CustomTableCell><b>Attribute</b></CustomTableCell>
-                    <CustomTableCell align="left">Subject</CustomTableCell>
-                </TableRow>
-                </TableHead>
-                <TableBody>
-                {rows.map(row => (
-                    <TableRow key={row.id}>
-                    <CustomTableCell component="th" scope="row">
-                        <b>{row.attribute}</b>
-                    </CustomTableCell>
-                    <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+    if (props.task == 0) {
+        // training
+        return (
+            // <h2 className="question">{props.content}</h2>
+            <Paper className={classes.root}>
+                <Table className={classes.table}>
+                    <TableHead>
+                    <TableRow>
+                        <CustomTableCell><b>Attribute</b></CustomTableCell>
+                        <CustomTableCell align="left">Subject</CustomTableCell>
+                        <CustomTableCell align="left">Fact</CustomTableCell>
+                        <CustomTableCell align="left">Contrast</CustomTableCell>
                     </TableRow>
-                ))}
-                </TableBody>
-            </Table>
-        </Paper>
-    );
+                    </TableHead>
+                    <TableBody>
+                    {rows.map(row => (
+                        <TableRow key={row.id}>
+                        <CustomTableCell component="th" scope="row">
+                            <b>{row.attribute}</b>
+                        </CustomTableCell>
+                        <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                        <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+                        <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+                        </TableRow>
+                    ))}
+                    <TableRow key={length}>
+                        <CustomTableCell component="th" scope="row">
+                            <b>Prediction (Income)</b>
+                        </CustomTableCell>
+                        <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+                        <CustomTableCell align="left"><b>{factPred}</b></CustomTableCell>
+                        <CustomTableCell align="left"><b>{contrastPred}</b></CustomTableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </Paper>
+        );
+    } else {
+        // prediction task
+        return (
+            <Paper className={classes.root}>
+                <Table className={classes.table}>
+                    <TableHead>
+                    <TableRow>
+                        <CustomTableCell><b>Attribute</b></CustomTableCell>
+                        <CustomTableCell align="left">Subject</CustomTableCell>
+                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map(row => (
+                        <TableRow key={row.id}>
+                        <CustomTableCell component="th" scope="row">
+                            <b>{row.attribute}</b>
+                        </CustomTableCell>
+                        <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </Paper>
+        );
+    }
     // verification task
     // return (
     //     // <h2 className="question">{props.content}</h2>
@@ -156,8 +195,8 @@ function Question(props) {
     
 }
 
-Question.propTypes = {
+Instance.propTypes = {
     content: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Question);
+export default withStyles(styles)(Instance);
