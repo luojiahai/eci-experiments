@@ -1,31 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+
+
+const styles = {
+    root: {
+        padding: '0px 25px 25px 25px',
+        width: '100%'
+    },
+    button: {
+        marginRight: '25px',
+        padding: '5px 50px',
+        flexGrow: 1
+    },
+}
 
 function TrainingPagination(props) {
     return (
-        <li className="answerOption">
-            <input
-                type="radio"
-                className="radioCustomButton"
-                name="radioGroup"
-                checked={props.answerType === props.answer}
-                id={props.answerType}
-                value={props.answerType}
-                disabled={props.answer}
-                onChange={props.onAnswerSelected}
-            />
-            <label className="radioCustomLabel" htmlFor={props.answerType}>
-                {props.answerContent}
-            </label>
-        </li>
+        <div style={styles.root}>
+            <Button 
+                variant="outlined" 
+                style={styles.button} 
+                value={false} 
+                onClick={props.onTrainingClicked}
+            >
+                Prev
+            </Button>
+            <Button 
+                variant="outlined" 
+                style={styles.button} 
+                value={true} 
+                onClick={props.onTrainingClicked}
+            >
+                Next
+            </Button>
+        </div>
     );
 }
 
 TrainingPagination.propTypes = {
-    answerType: PropTypes.string.isRequired,
-    answerContent: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired,
-    onAnswerSelected: PropTypes.func.isRequired
+    onTrainingClicked: PropTypes.func.isRequired
 };
 
 export default TrainingPagination;

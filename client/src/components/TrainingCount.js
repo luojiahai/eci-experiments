@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function TrainingCount(props) {
     return (
         <div className="questionCount">
-            Training <span>{props.counter}</span> of <span>{props.total}</span>
+            TRAINING <span>{props.counter}</span> of <span>{props.total}</span>
         </div>
     );
 }

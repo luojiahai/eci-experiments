@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Instance from './Instance';
 import TrainingCount from './TrainingCount';
+import TrainingPagination from './TrainingPagination';
 import { CSSTransitionGroup } from 'react-transition-group';
 
 
@@ -16,7 +17,7 @@ function Training(props) {
             transitionAppear
             transitionAppearTimeout={250}
         >
-            <div key={props.questionId}>
+            <div key={props.trainingId}>
                 <TrainingCount
                     counter={props.trainingId}
                     total={props.trainingTotal}
@@ -28,6 +29,9 @@ function Training(props) {
                     categoricalNames={props.categoricalNames}
                     task={0}    // training
                 />
+                <TrainingPagination 
+                    onTrainingClicked={props.onTrainingClicked}
+                />
             </div>
         </CSSTransitionGroup>
       );
@@ -37,7 +41,7 @@ Training.propTypes = {
     trainingInstance: PropTypes.object.isRequired,
     trainingId: PropTypes.number.isRequired,
     trainingTotal: PropTypes.number.isRequired,
-    onNextClicked: PropTypes.func.isRequired
+    onTrainingClicked: PropTypes.func.isRequired
 };
 
 export default Training;

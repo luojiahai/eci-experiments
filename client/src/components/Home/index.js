@@ -31,6 +31,7 @@ class Home extends Component {
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
+        this.handleTrainingClicked = this.handleTrainingClicked.bind(this);
     }
 
     handleAnswerSelected(event) {
@@ -44,11 +45,20 @@ class Home extends Component {
         }
     }
 
-    handleNextClicked() {
-        if (this.state.trainingId < trainingInstances.length) {
-            setTimeout(() => this.setNextTraining(), 150);
+    handleTrainingClicked(event) {
+        const isNext = event.currentTarget.value;
+        if (isNext === 'true') {
+            if (this.state.trainingId < trainingInstances.length) {
+                this.setNextTraining();
+            } else {
+                this.setState({
+                    isTrained: true
+                });
+            }
         } else {
-            this.isTrained = true;
+            if (this.state.trainingId > 1) {
+                this.setPrevTraining();
+            }
         }
     }
 
@@ -56,6 +66,16 @@ class Home extends Component {
         this.setState((state) => ({
             answer: answer
         }));
+    }
+
+    setPrevTraining() {
+        const trainingCounter = this.state.trainingCounter - 1;
+        const trainingId = this.state.trainingId - 1;
+        this.setState({
+            trainingCounter: trainingCounter,
+            trainingId: trainingId,
+            trainingInstance: trainingInstances[trainingCounter].instance
+        });
     }
 
     setNextTraining() {
@@ -90,7 +110,7 @@ class Home extends Component {
                 trainingId={this.state.trainingId}
                 trainingInstance={this.state.trainingInstance}
                 trainingTotal={trainingInstances.length}
-                onNextClicked={this.handleNextClicked}
+                onTrainingClicked={this.handleTrainingClicked}
                 classNames={dataset.classNames}
                 attributeNames={dataset.attributeNames}
                 categoricalNames={dataset.categoricalNames}
@@ -121,7 +141,7 @@ class Home extends Component {
     }
 
     render() {
-        if (!this.isTrained) {
+        if (!this.state.isTrained) {
             return (
                 this.renderTraining()
             )

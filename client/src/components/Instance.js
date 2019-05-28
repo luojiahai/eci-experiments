@@ -94,7 +94,7 @@ function Instance(props) {
     var factPred = props.classNames[props.content.fact[length]];
     var contrastPred = props.classNames[props.content.contrast[length]];
 
-    if (props.task == 0) {
+    if (props.task === 0) {
         // training
         return (
             // <h2 className="question">{props.content}</h2>
@@ -102,10 +102,10 @@ function Instance(props) {
                 <Table className={classes.table}>
                     <TableHead>
                     <TableRow>
-                        <CustomTableCell><b>Attribute</b></CustomTableCell>
-                        <CustomTableCell align="left">Subject</CustomTableCell>
-                        <CustomTableCell align="left">Fact</CustomTableCell>
-                        <CustomTableCell align="left">Contrast</CustomTableCell>
+                        <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+                        <CustomTableCell align="left">SUBJECT</CustomTableCell>
+                        <CustomTableCell align="left">FACT</CustomTableCell>
+                        <CustomTableCell align="left">CONTRAST</CustomTableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
