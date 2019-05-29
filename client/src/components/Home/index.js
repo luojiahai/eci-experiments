@@ -24,10 +24,10 @@ class Home extends Component {
             questionId: 1,
             questionCounter: 0,
             instance: instances[0].instance,
-            answerOptions: instances[0].answers,
             answer: '',
             result: '',
-            isTrained: false
+            isTrained: false,
+            answerCount: 0
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -63,9 +63,14 @@ class Home extends Component {
     }
 
     setUserAnswer(answer) {
-        this.setState((state) => ({
-            answer: answer
-        }));
+        var answerCount = this.state.answerCount;
+        if (answer === 'correct') {
+            answerCount = answerCount + 1;
+        }
+        this.setState({
+            answer: answer,
+            answerCount: answerCount
+        });
     }
 
     setPrevTraining() {
@@ -95,13 +100,14 @@ class Home extends Component {
             questionCounter: questionCounter,
             questionId: questionId,
             instance: instances[questionCounter].instance,
-            answerOptions: instances[questionCounter].answers,
             answer: ''
         });
     }
 
     setResult () {
-        this.setState({ result: 'Experiment complete!' });
+        const answerCount = this.state.answerCount;
+        const str = 'accuracy: ' + answerCount.toString() + '/' + instances.length.toString();
+        this.setState({ result: 'Experiment complete! ' + str });
     }
 
     renderTraining() {
@@ -122,7 +128,6 @@ class Home extends Component {
         return (
             <Quiz
                 answer={this.state.answer}
-                answerOptions={this.state.answerOptions}
                 questionId={this.state.questionId}
                 instance={this.state.instance}
                 questionTotal={instances.length}

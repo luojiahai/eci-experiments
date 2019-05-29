@@ -20,6 +20,21 @@ function Quiz(props) {
         );
     }
 
+    const subjectClass = props.instance.subject[props.instance.subject.length-1];
+    var answerOptions = [];
+    var i;
+    for (i = 0; i < props.classNames.length; i++) {
+        const answerContent = props.classNames[i];
+        var answerType = 'incorrect';
+        if (i === subjectClass) {
+            answerType = 'correct';
+        }
+        answerOptions.push({
+            type: answerType,
+            content: answerContent
+        })
+    }
+
     return (
         <CSSTransitionGroup
             className="container"
@@ -42,7 +57,7 @@ function Quiz(props) {
                     categoricalNames={props.categoricalNames}
                 />
                 <ul className="answerOptions">
-                    {props.answerOptions.map(renderAnswerOptions)}
+                    {answerOptions.map(renderAnswerOptions)}
                 </ul>
             </div>
         </CSSTransitionGroup>
@@ -51,7 +66,6 @@ function Quiz(props) {
   
 Quiz.propTypes = {
     answer: PropTypes.string.isRequired,
-    answerOptions: PropTypes.array.isRequired,
     instance: PropTypes.object.isRequired,
     questionId: PropTypes.number.isRequired,
     questionTotal: PropTypes.number.isRequired,
