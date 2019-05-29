@@ -38,10 +38,8 @@ class Home extends Component {
         this.setUserAnswer(event.currentTarget.value);
         if (this.state.questionId < instances.length) {
             setTimeout(() => this.setNextQuestion(), 150);
-            // this.setNextQuestion();
         } else {
             setTimeout(() => this.setResult(), 150);
-            // this.setResult();
         }
     }
 
