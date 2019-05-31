@@ -22,10 +22,13 @@ const CustomTableCell = withStyles(theme => ({
 const styles = theme => ({
     root: {
         margin: '25px',
+    },
+    paper: {
+        width: '100%',
         overflowX: 'auto',
     },
     table: {
-        minWidth: 700,
+        minWidth: 650,
     },
     row: {
         '&:nth-of-type(odd)': {
@@ -34,19 +37,21 @@ const styles = theme => ({
     },
 });
 
-const noStyle = {
-    color: 'black'
+
+const exemplarStyles = {
+    plain: {
+        color: 'black'
+    },
+    fact: {
+        color: 'green',
+        fontWeight: 'bold'
+    },
+    contrast: {
+        color: 'red',
+        fontWeight: 'bold'
+    }
 }
 
-const factStyle = {
-    color: 'green',
-    fontWeight: 'bold'
-}
-
-const contrastStyle = {
-    color: 'red',
-    fontWeight: 'bold'
-}
 
 function Instance(props) {
     const { classes } = props;
@@ -58,10 +63,8 @@ function Instance(props) {
     }
 
     const rows = [];
-
     const factStyles = []
     const contrastStyles = []
-    
     const length = props.attributeNames.length;
 
     // const min = Math.ceil(0);
@@ -79,14 +82,14 @@ function Instance(props) {
         var contrastValue = props.categoricalNames[i][contrastAttribute];
         rows.push(createData(attributeName, subjectValue, factValue, contrastValue));
         if (factValue === subjectValue) {
-            factStyles.push(noStyle);
+            factStyles.push(exemplarStyles.no);
         } else {
-            factStyles.push(factStyle);
+            factStyles.push(exemplarStyles.fact);
         }
         if (contrastValue === subjectValue) {
-            contrastStyles.push(noStyle);
+            contrastStyles.push(exemplarStyles.no);
         } else {
-            contrastStyles.push(contrastStyle);
+            contrastStyles.push(exemplarStyles.contrast);
         }
     }
 
@@ -98,8 +101,9 @@ function Instance(props) {
         // training
         return (
             // <h2 className="question">{props.content}</h2>
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
+            <div className={classes.root}>
+            <Paper className={classes.paper}>
+                <Table className={classes.table} size="small">
                     <TableHead>
                     <TableRow>
                         <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
@@ -130,12 +134,14 @@ function Instance(props) {
                     </TableBody>
                 </Table>
             </Paper>
+            </div>
         );
     } else {
         // prediction task
         return (
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
+            <div className={classes.root}>
+            <Paper className={classes.paper}>
+                <Table className={classes.table} size="small">
                     <TableHead>
                     <TableRow>
                         <CustomTableCell><b>Attribute</b></CustomTableCell>
@@ -154,6 +160,7 @@ function Instance(props) {
                     </TableBody>
                 </Table>
             </Paper>
+            </div>
         );
     }
     // verification task
