@@ -64,8 +64,8 @@ class HomeBase extends Component {
                     train = []
                     const trainChoice = this.getChoiceFn(snapshot.val().train.length);
                     for (var i=0; i < this.trainSize; i++) {
-                        console.log(trainChoice());
-                        train.push(snapshot.val().train[i]);
+                        const idx = trainChoice();
+                        train.push(snapshot.val().train[idx]);
                     }
                 }
 
@@ -76,8 +76,8 @@ class HomeBase extends Component {
                     test = []
                     const choice = this.getChoiceFn(snapshot.val().test.length);
                     for (var i = 0; i < this.size; i++) {
-                        console.log(choice());
-                        test.push(snapshot.val().test[i]);
+                        const idx = choice();
+                        test.push(snapshot.val().test[idx]);
                     }
                 }
                 
