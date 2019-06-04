@@ -3,40 +3,68 @@ import Quiz from '../Quiz';
 import Training from '../Training';
 import Result from '../Result';
 import "./home.css";
-
-import dataset from '../../tempAPI/dataset';
-import instances from '../../tempAPI/instances';
-import trainingInstances from '../../tempAPI/trainingInstances';
+import { withFirebase } from '../Firebase';
+import { compose } from 'recompose';
 import { withAuthorization } from '../Session';
 
 const HomePage = () => (
     <Home />
 );
 
-class Home extends Component {
+class HomeBase extends Component {
     constructor(props) {
         super(props);
-      
+
         this.state = {
+            isDataFetched: false,
+            isTrainingDataFetched: false,
             trainingCounter: 0,
             trainingId: 1,
-            trainingInstance: trainingInstances[0].instance,
+            trainingInstance: null,
             questionId: 1,
             questionCounter: 0,
-            instance: instances[0].instance,
+            instance: null,
             answer: '',
             result: '',
             isTrained: false,
             answerCount: 0,
         };
 
+        this.trainingSize = 10;
+        this.size = 5;
+
+        this.fetchData();
+
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
         this.handleTrainingClicked = this.handleTrainingClicked.bind(this);
     }
 
+    fetchData() {
+        this.props.firebase.db.ref().child('dataset')
+            .on('value', snapshot => {
+                this.dataset = snapshot.val();
+            });
+        this.props.firebase.db.ref().child('trainingInstances')
+            .on('value', snapshot => {
+                this.trainingInstances = snapshot.val();
+                this.setState({
+                    isTrainingDataFetched: true,
+                    trainingInstance: this.trainingInstances[0].instance,
+                });
+            });
+        this.props.firebase.db.ref().child('instances')
+            .on('value', snapshot => {
+                this.instances = snapshot.val();
+                this.setState({
+                    isDataFetched: true,
+                    instance: this.instances[0].instance,
+                });
+            });
+    }
+
     handleAnswerSelected(event) {
         this.setUserAnswer(event.currentTarget.value);
-        if (this.state.questionId < instances.length) {
+        if (this.state.questionId < this.instances.length) {
             setTimeout(() => this.setNextQuestion(), 150);
         } else {
             setTimeout(() => this.setResult(), 150);
@@ -46,7 +74,7 @@ class Home extends Component {
     handleTrainingClicked(event) {
         const isNext = event.currentTarget.value;
         if (isNext === 'true') {
-            if (this.state.trainingId < trainingInstances.length) {
+            if (this.state.trainingId < this.trainingInstances.length) {
                 this.setNextTraining();
             } else {
                 this.setState({
@@ -77,7 +105,7 @@ class Home extends Component {
         this.setState({
             trainingCounter: trainingCounter,
             trainingId: trainingId,
-            trainingInstance: trainingInstances[trainingCounter].instance
+            trainingInstance: this.trainingInstances[trainingCounter].instance
         });
     }
 
@@ -87,7 +115,7 @@ class Home extends Component {
         this.setState({
             trainingCounter: trainingCounter,
             trainingId: trainingId,
-            trainingInstance: trainingInstances[trainingCounter].instance
+            trainingInstance: this.trainingInstances[trainingCounter].instance
         });
     }
 
@@ -97,14 +125,14 @@ class Home extends Component {
         this.setState({
             questionCounter: questionCounter,
             questionId: questionId,
-            instance: instances[questionCounter].instance,
+            instance: this.instances[questionCounter].instance,
             answer: ''
         });
     }
 
     setResult () {
         const answerCount = this.state.answerCount;
-        const str = 'accuracy: ' + answerCount.toString() + '/' + instances.length.toString();
+        const str = 'accuracy: ' + answerCount.toString() + '/' + this.instances.length.toString();
         this.setState({ result: 'Experiment complete! ' + str });
     }
 
@@ -113,11 +141,11 @@ class Home extends Component {
             <Training
                 trainingId={this.state.trainingId}
                 trainingInstance={this.state.trainingInstance}
-                trainingTotal={trainingInstances.length}
+                trainingTotal={this.trainingInstances.length}
                 onTrainingClicked={this.handleTrainingClicked}
-                classNames={dataset.classNames}
-                attributeNames={dataset.attributeNames}
-                categoricalNames={dataset.categoricalNames}
+                classNames={this.dataset.classNames}
+                attributeNames={this.dataset.attributeNames}
+                categoricalNames={this.dataset.categoricalNames}
             />
         );
     }
@@ -128,11 +156,11 @@ class Home extends Component {
                 answer={this.state.answer}
                 questionId={this.state.questionId}
                 instance={this.state.instance}
-                questionTotal={instances.length}
+                questionTotal={this.instances.length}
                 onAnswerSelected={this.handleAnswerSelected}
-                classNames={dataset.classNames}
-                attributeNames={dataset.attributeNames}
-                categoricalNames={dataset.categoricalNames}
+                classNames={this.dataset.classNames}
+                attributeNames={this.dataset.attributeNames}
+                categoricalNames={this.dataset.categoricalNames}
             />
         );
     }
@@ -144,7 +172,9 @@ class Home extends Component {
     }
 
     render() {
-        if (!this.state.isTrained) {
+        if (!this.state.isDataFetched || !this.state.isTrainingDataFetched) {
+            return ''
+        } else if (!this.state.isTrained) {
             return (
                 this.renderTraining()
             )
@@ -158,4 +188,9 @@ class Home extends Component {
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(HomePage);
+const Home = compose(
+    withAuthorization(condition),
+    withFirebase,
+)(HomeBase);
+
+export default HomePage;
