@@ -100,7 +100,6 @@ function Instance(props) {
     if (props.task === 0) {
         // train
         return (
-            // <h2 className="question">{props.content}</h2>
             <div className={classes.root}>
             <Paper className={classes.paper}>
                 <Table className={classes.table} size="small">
@@ -165,7 +164,7 @@ function Instance(props) {
     }
     // verification task
     // return (
-    //     // <h2 className="question">{props.content}</h2>
+    //     // <h2 className="test">{props.content}</h2>
     //     <Paper className={classes.root}>
     //         <Table className={classes.table}>
     //             <TableHead>
