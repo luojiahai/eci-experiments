@@ -33,7 +33,7 @@ var instances = [
             fact: [0, 7, 5, 0, 0, 39, 0],
             contrast: [3, 9, 4, 1, 2, 39, 1]
         }
-    }
+    },
 ]
 
 export default instances;

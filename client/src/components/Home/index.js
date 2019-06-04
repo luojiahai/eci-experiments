@@ -27,7 +27,7 @@ class Home extends Component {
             answer: '',
             result: '',
             isTrained: false,
-            answerCount: 0
+            answerCount: 0,
         };
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
