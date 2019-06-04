@@ -15,14 +15,14 @@ const styles = {
     },
 }
 
-function TrainingPagination(props) {
+function TrainPagination(props) {
     return (
         <div style={styles.root}>
             <Button 
                 variant="outlined" 
                 style={styles.button} 
                 value={false} 
-                onClick={props.onTrainingClicked}
+                onClick={props.onTrainClicked}
             >
                 Prev
             </Button>
@@ -30,7 +30,7 @@ function TrainingPagination(props) {
                 variant="outlined" 
                 style={styles.button} 
                 value={true} 
-                onClick={props.onTrainingClicked}
+                onClick={props.onTrainClicked}
             >
                 Next
             </Button>
@@ -38,8 +38,8 @@ function TrainingPagination(props) {
     );
 }
 
-TrainingPagination.propTypes = {
-    onTrainingClicked: PropTypes.func.isRequired
+TrainPagination.propTypes = {
+    onTrainClicked: PropTypes.func.isRequired
 };
 
-export default TrainingPagination;
+export default TrainPagination;

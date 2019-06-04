@@ -64,14 +64,14 @@ body {
   list-style: none;
 }
 
-/* QuestionCount Component */
-.questionCount {
+/* TestCount Component */
+.testCount {
   padding: 1.5rem 2.0rem 0;
   font-size: 14px;
 }
 
-/* Question Component */
-.question {
+/* Test Component */
+.test {
   margin: 0;
   padding: 0.5rem 2.5rem 1.5rem 2.5rem;
 }

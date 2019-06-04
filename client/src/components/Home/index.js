@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Quiz from '../Quiz';
-import Training from '../Training';
+import Test from '../Test';
+import Train from '../Train';
 import Result from '../Result';
 import "./home.css";
 import { withFirebase } from '../Firebase';
@@ -17,73 +17,108 @@ class HomeBase extends Component {
 
         this.state = {
             isDataFetched: false,
-            isTrainingDataFetched: false,
-            trainingCounter: 0,
-            trainingId: 1,
-            trainingInstance: null,
-            questionId: 1,
-            questionCounter: 0,
-            instance: null,
+            trainCounter: 0,
+            trainId: 1,
+            trainInstance: null,
+            testId: 1,
+            testCounter: 0,
+            testInstance: null,
             answer: '',
             result: '',
             isTrained: false,
             answerCount: 0,
         };
 
-        this.trainingSize = 10;
+        this.trainSize = 10;
         this.size = 5;
 
         this.fetchData();
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
-        this.handleTrainingClicked = this.handleTrainingClicked.bind(this);
+        this.handleTrainClicked = this.handleTrainClicked.bind(this);
+    }
+
+    getChoiceFn(size) {
+        var bucket = [];
+
+        for (var i = 0; i < size; i++) {
+            bucket.push(i);
+        }
+
+        function getRandomFromBucket() {
+            var randomIndex = Math.floor(Math.random() * bucket.length);
+            return bucket.splice(randomIndex, 1)[0];
+        }
+
+        return getRandomFromBucket
     }
 
     fetchData() {
-        this.props.firebase.db.ref().child('dataset')
+        this.props.firebase.db.ref()
+            .child('adult_dataset')
             .on('value', snapshot => {
-                this.dataset = snapshot.val();
-            });
-        this.props.firebase.db.ref().child('trainingInstances')
-            .on('value', snapshot => {
-                this.trainingInstances = snapshot.val();
-                this.setState({
-                    isTrainingDataFetched: true,
-                    trainingInstance: this.trainingInstances[0].instance,
-                });
-            });
-        this.props.firebase.db.ref().child('instances')
-            .on('value', snapshot => {
-                this.instances = snapshot.val();
+                var train = null;
+                if (snapshot.val().train.length < this.trainSize) {
+                    train = snapshot.val().train;
+                } else {
+                    train = []
+                    const trainChoice = this.getChoiceFn(snapshot.val().train.length);
+                    for (var i=0; i < this.trainSize; i++) {
+                        console.log(trainChoice());
+                        train.push(snapshot.val().train[i]);
+                    }
+                }
+
+                var test = null;
+                if (snapshot.val().test.length < this.size) {
+                    test = snapshot.val().test;
+                } else {
+                    test = []
+                    const choice = this.getChoiceFn(snapshot.val().test.length);
+                    for (var i = 0; i < this.size; i++) {
+                        console.log(choice());
+                        test.push(snapshot.val().test[i]);
+                    }
+                }
+                
+                this.dataset = {
+                    'attributeNames': snapshot.val().attributeNames,
+                    'categoricalNames': snapshot.val().categoricalNames,
+                    'classNames': snapshot.val().classNames,
+                    'train': train,
+                    'test': test,
+                };
+
                 this.setState({
                     isDataFetched: true,
-                    instance: this.instances[0].instance,
+                    trainInstance: this.dataset.train[0].instance,
+                    testInstance: this.dataset.test[0].instance,
                 });
             });
     }
 
     handleAnswerSelected(event) {
         this.setUserAnswer(event.currentTarget.value);
-        if (this.state.questionId < this.instances.length) {
-            setTimeout(() => this.setNextQuestion(), 150);
+        if (this.state.testId < this.dataset.test.length) {
+            setTimeout(() => this.setNextTest(), 150);
         } else {
             setTimeout(() => this.setResult(), 150);
         }
     }
 
-    handleTrainingClicked(event) {
+    handleTrainClicked(event) {
         const isNext = event.currentTarget.value;
         if (isNext === 'true') {
-            if (this.state.trainingId < this.trainingInstances.length) {
-                this.setNextTraining();
+            if (this.state.trainId < this.dataset.train.length) {
+                this.setNextTrain();
             } else {
                 this.setState({
                     isTrained: true
                 });
             }
         } else {
-            if (this.state.trainingId > 1) {
-                this.setPrevTraining();
+            if (this.state.trainId > 1) {
+                this.setPrevTrain();
             }
         }
     }
@@ -99,50 +134,50 @@ class HomeBase extends Component {
         });
     }
 
-    setPrevTraining() {
-        const trainingCounter = this.state.trainingCounter - 1;
-        const trainingId = this.state.trainingId - 1;
+    setPrevTrain() {
+        const trainCounter = this.state.trainCounter - 1;
+        const trainId = this.state.trainId - 1;
         this.setState({
-            trainingCounter: trainingCounter,
-            trainingId: trainingId,
-            trainingInstance: this.trainingInstances[trainingCounter].instance
+            trainCounter: trainCounter,
+            trainId: trainId,
+            trainInstance: this.dataset.train[trainCounter].instance
         });
     }
 
-    setNextTraining() {
-        const trainingCounter = this.state.trainingCounter + 1;
-        const trainingId = this.state.trainingId + 1;
+    setNextTrain() {
+        const trainCounter = this.state.trainCounter + 1;
+        const trainId = this.state.trainId + 1;
         this.setState({
-            trainingCounter: trainingCounter,
-            trainingId: trainingId,
-            trainingInstance: this.trainingInstances[trainingCounter].instance
+            trainCounter: trainCounter,
+            trainId: trainId,
+            trainInstance: this.dataset.train[trainCounter].instance
         });
     }
 
-    setNextQuestion() {
-        const questionCounter = this.state.questionCounter + 1;
-        const questionId = this.state.questionId + 1;
+    setNextTest() {
+        const testCounter = this.state.testCounter + 1;
+        const testId = this.state.testId + 1;
         this.setState({
-            questionCounter: questionCounter,
-            questionId: questionId,
-            instance: this.instances[questionCounter].instance,
+            testCounter: testCounter,
+            testId: testId,
+            testInstance: this.dataset.test[testCounter].instance,
             answer: ''
         });
     }
 
     setResult () {
         const answerCount = this.state.answerCount;
-        const str = 'accuracy: ' + answerCount.toString() + '/' + this.instances.length.toString();
+        const str = 'accuracy: ' + answerCount.toString() + '/' + this.dataset.test.length.toString();
         this.setState({ result: 'Experiment complete! ' + str });
     }
 
-    renderTraining() {
+    renderTrain() {
         return (
-            <Training
-                trainingId={this.state.trainingId}
-                trainingInstance={this.state.trainingInstance}
-                trainingTotal={this.trainingInstances.length}
-                onTrainingClicked={this.handleTrainingClicked}
+            <Train
+                trainId={this.state.trainId}
+                trainInstance={this.state.trainInstance}
+                trainTotal={this.dataset.train.length}
+                onTrainClicked={this.handleTrainClicked}
                 classNames={this.dataset.classNames}
                 attributeNames={this.dataset.attributeNames}
                 categoricalNames={this.dataset.categoricalNames}
@@ -150,13 +185,13 @@ class HomeBase extends Component {
         );
     }
 
-    renderQuiz() {
+    renderTest() {
         return (
-            <Quiz
+            <Test
                 answer={this.state.answer}
-                questionId={this.state.questionId}
-                instance={this.state.instance}
-                questionTotal={this.instances.length}
+                testId={this.state.testId}
+                testInstance={this.state.testInstance}
+                testTotal={this.dataset.test.length}
                 onAnswerSelected={this.handleAnswerSelected}
                 classNames={this.dataset.classNames}
                 attributeNames={this.dataset.attributeNames}
@@ -172,15 +207,15 @@ class HomeBase extends Component {
     }
 
     render() {
-        if (!this.state.isDataFetched || !this.state.isTrainingDataFetched) {
+        if (!this.state.isDataFetched) {
             return ''
         } else if (!this.state.isTrained) {
             return (
-                this.renderTraining()
+                this.renderTrain()
             )
         } else {
             return (
-                this.state.result ? this.renderResult() : this.renderQuiz()
+                this.state.result ? this.renderResult() : this.renderTest()
             );
         }
     }

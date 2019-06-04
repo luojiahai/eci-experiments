@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Instance from './Instance';
-import TrainingCount from './TrainingCount';
-import TrainingPagination from './TrainingPagination';
+import TrainCount from './TrainCount';
+import TrainPagination from './TrainPagination';
 import { CSSTransitionGroup } from 'react-transition-group';
 
 
-function Training(props) {
+function Train(props) {
     return (
         <CSSTransitionGroup
             className="container"
@@ -17,31 +17,31 @@ function Training(props) {
             transitionAppear
             transitionAppearTimeout={250}
         >
-            <div key={props.trainingId}>
-                <TrainingCount
-                    counter={props.trainingId}
-                    total={props.trainingTotal}
+            <div key={props.trainId}>
+                <TrainCount
+                    counter={props.trainId}
+                    total={props.trainTotal}
                 />
                 <Instance 
-                    content={props.trainingInstance}
+                    content={props.trainInstance}
                     classNames={props.classNames}
                     attributeNames={props.attributeNames}
                     categoricalNames={props.categoricalNames}
-                    task={0}    // training
+                    task={0}    // train
                 />
-                <TrainingPagination 
-                    onTrainingClicked={props.onTrainingClicked}
+                <TrainPagination 
+                    onTrainClicked={props.onTrainClicked}
                 />
             </div>
         </CSSTransitionGroup>
       );
 }
   
-Training.propTypes = {
-    trainingInstance: PropTypes.object.isRequired,
-    trainingId: PropTypes.number.isRequired,
-    trainingTotal: PropTypes.number.isRequired,
-    onTrainingClicked: PropTypes.func.isRequired
+Train.propTypes = {
+    trainInstance: PropTypes.object.isRequired,
+    trainId: PropTypes.number.isRequired,
+    trainTotal: PropTypes.number.isRequired,
+    onTrainClicked: PropTypes.func.isRequired
 };
 
-export default Training;
+export default Train;

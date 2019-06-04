@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Instance from './Instance';
-import QuestionCount from './QuestionCount';
+import TestCount from './TestCount';
 import AnswerOption from './AnswerOption';
 import { CSSTransitionGroup } from 'react-transition-group';
 
 
-function Quiz(props) {
+function Test(props) {
     function renderAnswerOptions(key) {
         return (
           <AnswerOption
@@ -14,13 +14,13 @@ function Quiz(props) {
             answerContent={key.content}
             answerType={key.type}
             answer={props.answer}
-            questionId={props.questionId}
+            testId={props.testId}
             onAnswerSelected={props.onAnswerSelected}
           />
         );
     }
 
-    const subjectClass = props.instance.subject[props.instance.subject.length-1];
+    const subjectClass = props.testInstance.subject[props.testInstance.subject.length-1];
     var answerOptions = [];
     var i;
     for (i = 0; i < props.classNames.length; i++) {
@@ -45,13 +45,13 @@ function Quiz(props) {
             transitionAppear
             transitionAppearTimeout={250}
         >
-            <div key={props.questionId}>
-                <QuestionCount
-                    counter={props.questionId}
-                    total={props.questionTotal}
+            <div key={props.testId}>
+                <TestCount
+                    counter={props.testId}
+                    total={props.testTotal}
                 />
                 <Instance 
-                    content={props.instance}
+                    content={props.testInstance}
                     classNames={props.classNames}
                     attributeNames={props.attributeNames}
                     categoricalNames={props.categoricalNames}
@@ -64,12 +64,12 @@ function Quiz(props) {
       );
 }
   
-Quiz.propTypes = {
+Test.propTypes = {
     answer: PropTypes.string.isRequired,
-    instance: PropTypes.object.isRequired,
-    questionId: PropTypes.number.isRequired,
-    questionTotal: PropTypes.number.isRequired,
+    testInstance: PropTypes.object.isRequired,
+    testId: PropTypes.number.isRequired,
+    testTotal: PropTypes.number.isRequired,
     onAnswerSelected: PropTypes.func.isRequired
 };
 
-export default Quiz;
+export default Test;

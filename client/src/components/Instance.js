@@ -98,7 +98,7 @@ function Instance(props) {
     var contrastPred = props.classNames[props.content.contrast[length]];
 
     if (props.task === 0) {
-        // training
+        // train
         return (
             // <h2 className="question">{props.content}</h2>
             <div className={classes.root}>
