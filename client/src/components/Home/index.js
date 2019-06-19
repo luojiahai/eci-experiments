@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Test from '../Test';
-import Train from '../Train';
-import Result from '../Result';
+import Test from '../Experiment/Test';
+import Train from '../Experiment/Train';
+import Result from '../Experiment/Result';
 import "./home.css";
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
@@ -21,10 +21,14 @@ class HomeBase extends Component {
             trainId: 1,
             trainInstance: null,
             trainIdx: [],
+            trainSize: 10,
+            trainStart: 0,
             testId: 1,
             testCounter: 0,
             testInstance: null,
             testIdx: [],
+            testSize: 15,
+            testStart: 0,
             answers: [],
             answer: '',
             result: '',
@@ -35,9 +39,6 @@ class HomeBase extends Component {
         this.uid = this.props.firebase.auth.currentUser.uid;
         this.email = this.props.firebase.auth.currentUser.email;
 
-        this.trainSize = 10;
-        this.size = 5;
-
         this.fetchData();
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
@@ -45,11 +46,11 @@ class HomeBase extends Component {
     }
 
     componentDidUpdate() {
-        this.props.firebase
-            .user(this.uid)
-            .update({
-                'state': this.state,
-            });
+        // this.props.firebase
+        //     .user(this.uid)
+        //     .update({
+        //         'state': this.state,
+        //     });
     }
 
     getChoiceFn(size) {
@@ -76,7 +77,7 @@ class HomeBase extends Component {
                         var train = null;
                         const trainIdx = snapshot.child(this.uid).val().state.trainIdx;
                         train = [];
-                        for (var i = 0; i < this.trainSize; i++) {
+                        for (var i = 0; i < this.state.trainSize; i++) {
                             
                             train.push(snapshot1.val().train[trainIdx[i]]);
                         }
@@ -84,7 +85,7 @@ class HomeBase extends Component {
                         var test = null;
                         const testIdx = snapshot.child(this.uid).val().state.testIdx;
                         test = [];
-                        for (i = 0; i < this.size; i++) {
+                        for (i = 0; i < this.state.testSize; i++) {
                             test.push(snapshot1.val().test[testIdx[i]]);
                         }
                         
@@ -107,7 +108,7 @@ class HomeBase extends Component {
                         train = [];
                         trainIdx = [];
                         const trainChoice = this.getChoiceFn(snapshot1.val().train.length);
-                        for (var i = 0; i < this.trainSize; i++) {
+                        for (var i = 0; i < this.state.trainSize; i++) {
                             const idx = trainChoice();
                             train.push(snapshot1.val().train[idx]);
                             trainIdx.push(idx);
@@ -118,7 +119,7 @@ class HomeBase extends Component {
                         test = [];
                         testIdx = [];
                         const choice = this.getChoiceFn(snapshot1.val().test.length);
-                        for (i = 0; i < this.size; i++) {
+                        for (i = 0; i < this.state.testSize; i++) {
                             const idx = choice();
                             test.push(snapshot1.val().test[idx]);
                             testIdx.push(idx);
@@ -138,6 +139,7 @@ class HomeBase extends Component {
                             testInstance: this.dataset.test[0].instance,
                             trainIdx: trainIdx,
                             testIdx: testIdx,
+                            trainStart: Date.now(),
                         });
 
                         this.props.firebase
@@ -261,6 +263,11 @@ class HomeBase extends Component {
     }
 
     render() {
+        const elapsed = new Date() - this.state.trainStart;
+        var trainElapsed = Math.round(elapsed / 100);
+        var trainSeconds = (trainElapsed / 10).toFixed(1);
+        console.log(trainSeconds);
+
         if (!this.state.isDataFetched) {
             return ''
         } else if (!this.state.isTrained) {
