@@ -20,14 +20,20 @@ class HomeBase extends Component {
             trainCounter: 0,
             trainId: 1,
             trainInstance: null,
+            trainIdx: [],
             testId: 1,
             testCounter: 0,
             testInstance: null,
+            testIdx: [],
+            answers: [],
             answer: '',
             result: '',
             isTrained: false,
             answerCount: 0,
         };
+
+        this.uid = this.props.firebase.auth.currentUser.uid;
+        this.email = this.props.firebase.auth.currentUser.email;
 
         this.trainSize = 10;
         this.size = 5;
@@ -36,6 +42,14 @@ class HomeBase extends Component {
 
         this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
         this.handleTrainClicked = this.handleTrainClicked.bind(this);
+    }
+
+    componentDidUpdate() {
+        this.props.firebase
+            .user(this.uid)
+            .update({
+                'state': this.state,
+            });
     }
 
     getChoiceFn(size) {
@@ -54,47 +68,87 @@ class HomeBase extends Component {
     }
 
     fetchData() {
-        this.props.firebase.db.ref()
-            .child('adult_dataset')
-            .on('value', snapshot => {
-                var train = null;
-                if (snapshot.val().train.length < this.trainSize) {
-                    train = snapshot.val().train;
-                } else {
-                    train = []
-                    const trainChoice = this.getChoiceFn(snapshot.val().train.length);
-                    for (var i=0; i < this.trainSize; i++) {
-                        const idx = trainChoice();
-                        train.push(snapshot.val().train[idx]);
-                    }
-                }
+        this.props.firebase.db.ref().child('users').on('value', snapshot => {
+            if (snapshot.hasChild(this.uid)) {
+                this.props.firebase.db.ref()
+                    .child('adult_dataset')
+                    .on('value', snapshot1 => {
+                        var train = null;
+                        const trainIdx = snapshot.child(this.uid).val().state.trainIdx;
+                        train = [];
+                        for (var i = 0; i < this.trainSize; i++) {
+                            
+                            train.push(snapshot1.val().train[trainIdx[i]]);
+                        }
 
-                var test = null;
-                if (snapshot.val().test.length < this.size) {
-                    test = snapshot.val().test;
-                } else {
-                    test = []
-                    const choice = this.getChoiceFn(snapshot.val().test.length);
-                    for (var i = 0; i < this.size; i++) {
-                        const idx = choice();
-                        test.push(snapshot.val().test[idx]);
-                    }
-                }
-                
-                this.dataset = {
-                    'attributeNames': snapshot.val().attributeNames,
-                    'categoricalNames': snapshot.val().categoricalNames,
-                    'classNames': snapshot.val().classNames,
-                    'train': train,
-                    'test': test,
-                };
+                        var test = null;
+                        const testIdx = snapshot.child(this.uid).val().state.testIdx;
+                        test = [];
+                        for (i = 0; i < this.size; i++) {
+                            test.push(snapshot1.val().test[testIdx[i]]);
+                        }
+                        
+                        this.dataset = {
+                            'attributeNames': snapshot1.val().attributeNames,
+                            'categoricalNames': snapshot1.val().categoricalNames,
+                            'classNames': snapshot1.val().classNames,
+                            'train': train,
+                            'test': test,
+                        };
+                        
+                        this.setState(snapshot.child(this.uid).val().state);
+                    });
+            } else {
+                this.props.firebase.db.ref()
+                    .child('adult_dataset')
+                    .on('value', snapshot1 => {
+                        var train = null;
+                        var trainIdx = null;
+                        train = [];
+                        trainIdx = [];
+                        const trainChoice = this.getChoiceFn(snapshot1.val().train.length);
+                        for (var i = 0; i < this.trainSize; i++) {
+                            const idx = trainChoice();
+                            train.push(snapshot1.val().train[idx]);
+                            trainIdx.push(idx);
+                        }
 
-                this.setState({
-                    isDataFetched: true,
-                    trainInstance: this.dataset.train[0].instance,
-                    testInstance: this.dataset.test[0].instance,
-                });
-            });
+                        var test = null;
+                        var testIdx = null;
+                        test = [];
+                        testIdx = [];
+                        const choice = this.getChoiceFn(snapshot1.val().test.length);
+                        for (i = 0; i < this.size; i++) {
+                            const idx = choice();
+                            test.push(snapshot1.val().test[idx]);
+                            testIdx.push(idx);
+                        }
+                        
+                        this.dataset = {
+                            'attributeNames': snapshot1.val().attributeNames,
+                            'categoricalNames': snapshot1.val().categoricalNames,
+                            'classNames': snapshot1.val().classNames,
+                            'train': train,
+                            'test': test,
+                        };
+
+                        this.setState({
+                            isDataFetched: true,
+                            trainInstance: this.dataset.train[0].instance,
+                            testInstance: this.dataset.test[0].instance,
+                            trainIdx: trainIdx,
+                            testIdx: testIdx,
+                        });
+
+                        this.props.firebase
+                            .user(this.uid)
+                            .set({
+                                'email': this.email,
+                                'state': this.state,
+                            });
+                    });
+            }
+        });
     }
 
     handleAnswerSelected(event) {
