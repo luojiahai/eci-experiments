@@ -64,6 +64,11 @@ body {
   list-style: none;
 }
 
+.trainConfirm {
+  padding: 1.5rem 2.0rem;
+  font-size: 18px;
+}
+
 /* TestCount Component */
 .testCount {
   padding: 1.5rem 2.0rem 0;

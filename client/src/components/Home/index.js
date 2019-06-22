@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Test from '../Experiment/Test';
 import Train from '../Experiment/Train';
 import Result from '../Experiment/Result';
+import TrainConfirm from '../Experiment/TrainConfirm';
 import "./home.css";
 import { withFirebase } from '../Firebase';
 import { compose } from 'recompose';
@@ -169,6 +170,13 @@ class HomeBase extends Component {
         if (isNext === 'true') {
             if (this.state.trainId < this.dataset.train.length) {
                 this.setNextTrain();
+            } else if (this.state.trainId === this.dataset.train.length) {
+                const trainCounter = this.state.trainCounter + 1;
+                const trainId = this.state.trainId + 1;
+                this.setState({
+                    trainCounter: trainCounter,
+                    trainId: trainId,
+                });
             } else {
                 var trainElapsed = new Date() - this.state.trainStart;
                 trainElapsed = Math.round(trainElapsed / 100);
@@ -291,6 +299,12 @@ class HomeBase extends Component {
             />
         );
     }
+
+    renderTrainConfirm() {
+        return (
+            <TrainConfirm onTrainClicked={this.handleTrainClicked} />
+        );
+    }
       
     renderResult() {
         return (
@@ -302,9 +316,15 @@ class HomeBase extends Component {
         if (!this.state.isDataFetched) {
             return ''
         } else if (!this.state.isTrained) {
-            return (
-                this.renderTrain()
-            )
+            if (this.state.trainId === this.dataset.train.length + 1) {
+                return (
+                    this.renderTrainConfirm()
+                )
+            } else {
+                return  (
+                    this.renderTrain()
+                )
+            }
         } else {
             return (
                 this.state.result ? this.renderResult() : this.renderTest()
