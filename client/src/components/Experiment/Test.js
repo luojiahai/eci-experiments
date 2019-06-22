@@ -55,6 +55,7 @@ function Test(props) {
                     classNames={props.classNames}
                     attributeNames={props.attributeNames}
                     categoricalNames={props.categoricalNames}
+                    phase={1}
                 />
                 <ul className="answerOptions">
                     {answerOptions.map(renderAnswerOptions)}
@@ -69,7 +70,7 @@ Test.propTypes = {
     testInstance: PropTypes.object.isRequired,
     testId: PropTypes.number.isRequired,
     testTotal: PropTypes.number.isRequired,
-    onAnswerSelected: PropTypes.func.isRequired
+    onAnswerSelected: PropTypes.func.isRequired,
 };
 
 export default Test;

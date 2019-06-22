@@ -97,45 +97,116 @@ function Instance(props) {
     var factPred = props.classNames[props.content.fact[length]];
     var contrastPred = props.classNames[props.content.contrast[length]];
 
-    if (props.task === 0) {
+    if (props.phase === 0) {
         // train
-        return (
-            <div className={classes.root}>
-            <Paper className={classes.paper}>
-                <Table className={classes.table} size="small">
-                    <TableHead>
-                    <TableRow>
-                        <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
-                        <CustomTableCell align="left">SUBJECT</CustomTableCell>
-                        <CustomTableCell align="left">FACT</CustomTableCell>
-                        <CustomTableCell align="left">CONTRAST</CustomTableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.id}>
-                        <CustomTableCell component="th" scope="row">
-                            <b>{row.attribute}</b>
-                        </CustomTableCell>
-                        <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
-                        <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
-                        <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+        if (props.group === 0) {
+            // fact exp
+            return (
+                <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Table className={classes.table} size="small">
+                        <TableHead>
+                        <TableRow>
+                            <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+                            <CustomTableCell align="left">SUBJECT</CustomTableCell>
+                            <CustomTableCell align="left">FACT</CustomTableCell>
                         </TableRow>
-                    ))}
-                    <TableRow key={length}>
-                        <CustomTableCell component="th" scope="row">
-                            <b>Prediction (Income)</b>
-                        </CustomTableCell>
-                        <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
-                        <CustomTableCell align="left"><b>{factPred}</b></CustomTableCell>
-                        <CustomTableCell align="left"><b>{contrastPred}</b></CustomTableCell>
+                        </TableHead>
+                        <TableBody>
+                        {rows.map(row => (
+                            <TableRow key={row.id}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>{row.attribute}</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                            <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+                            </TableRow>
+                        ))}
+                        <TableRow key={length}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>Prediction (Income)</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+                            <CustomTableCell align="left"><b>{factPred}</b></CustomTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
+                </div>
+            );
+        } else if (props.group === 1) {
+            // contrast exp
+            return (
+                <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Table className={classes.table} size="small">
+                        <TableHead>
+                        <TableRow>
+                            <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+                            <CustomTableCell align="left">SUBJECT</CustomTableCell>
+                            <CustomTableCell align="left">CONTRAST</CustomTableCell>
                         </TableRow>
-                    </TableBody>
-                </Table>
-            </Paper>
-            </div>
-        );
-    } else {
+                        </TableHead>
+                        <TableBody>
+                        {rows.map(row => (
+                            <TableRow key={row.id}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>{row.attribute}</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                            <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+                            </TableRow>
+                        ))}
+                        <TableRow key={length}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>Prediction (Income)</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+                            <CustomTableCell align="left"><b>{contrastPred}</b></CustomTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
+                </div>
+            );
+        }
+        // return (
+        //     <div className={classes.root}>
+        //     <Paper className={classes.paper}>
+        //         <Table className={classes.table} size="small">
+        //             <TableHead>
+        //             <TableRow>
+        //                 <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+        //                 <CustomTableCell align="left">SUBJECT</CustomTableCell>
+        //                 <CustomTableCell align="left">FACT</CustomTableCell>
+        //                 <CustomTableCell align="left">CONTRAST</CustomTableCell>
+        //             </TableRow>
+        //             </TableHead>
+        //             <TableBody>
+        //             {rows.map(row => (
+        //                 <TableRow key={row.id}>
+        //                 <CustomTableCell component="th" scope="row">
+        //                     <b>{row.attribute}</b>
+        //                 </CustomTableCell>
+        //                 <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+        //                 <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+        //                 <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+        //                 </TableRow>
+        //             ))}
+        //             <TableRow key={length}>
+        //                 <CustomTableCell component="th" scope="row">
+        //                     <b>Prediction (Income)</b>
+        //                 </CustomTableCell>
+        //                 <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+        //                 <CustomTableCell align="left"><b>{factPred}</b></CustomTableCell>
+        //                 <CustomTableCell align="left"><b>{contrastPred}</b></CustomTableCell>
+        //                 </TableRow>
+        //             </TableBody>
+        //         </Table>
+        //     </Paper>
+        //     </div>
+        // );
+    } else if (props.phase === 1) {
         // prediction task
         return (
             <div className={classes.root}>

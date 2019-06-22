@@ -27,7 +27,8 @@ function Train(props) {
                     classNames={props.classNames}
                     attributeNames={props.attributeNames}
                     categoricalNames={props.categoricalNames}
-                    task={0}    // train
+                    phase={0}
+                    group={props.group}
                 />
                 <TrainPagination 
                     onTrainClicked={props.onTrainClicked}
@@ -41,7 +42,8 @@ Train.propTypes = {
     trainInstance: PropTypes.object.isRequired,
     trainId: PropTypes.number.isRequired,
     trainTotal: PropTypes.number.isRequired,
-    onTrainClicked: PropTypes.func.isRequired
+    onTrainClicked: PropTypes.func.isRequired,
+    group: PropTypes.number.isRequired,
 };
 
 export default Train;

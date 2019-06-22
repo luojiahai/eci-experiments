@@ -38,6 +38,7 @@ class HomeBase extends Component {
             result: '',
             isTrained: false,
             correctCount: 0,
+            group: 0,
         };
 
         this.uid = this.props.firebase.auth.currentUser.uid;
@@ -281,6 +282,7 @@ class HomeBase extends Component {
                 classNames={this.dataset.classNames}
                 attributeNames={this.dataset.attributeNames}
                 categoricalNames={this.dataset.categoricalNames}
+                group={this.state.group}
             />
         );
     }
