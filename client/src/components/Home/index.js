@@ -22,14 +22,14 @@ class HomeBase extends Component {
             trainId: 1,
             trainInstance: null,
             trainIdx: [],
-            trainSize: 10,
+            trainSize: 16,
             trainStart: 0,
             trainSeconds: 0,
             testId: 1,
             testCounter: 0,
             testInstance: null,
             testIdx: [],
-            testSize: 15,
+            testSize: 16,
             testStart: 0,
             testSeconds: 0,
             answers: [],
@@ -51,11 +51,11 @@ class HomeBase extends Component {
     }
 
     componentDidUpdate() {
-        this.props.firebase
-            .user(this.uid)
-            .update({
-                'state': this.state,
-            });
+        // this.props.firebase
+        //     .user(this.uid)
+        //     .update({
+        //         'state': this.state,
+        //     });
     }
 
     getChoiceFn(size) {
