@@ -100,6 +100,38 @@ function Instance(props) {
     if (props.phase === 0) {
         // train
         if (props.group === 0) {
+            // no exp
+            return (
+                <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Table className={classes.table} size="small">
+                        <TableHead>
+                        <TableRow>
+                            <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+                            <CustomTableCell align="left">SUBJECT</CustomTableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {rows.map(row => (
+                            <TableRow key={row.id}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>{row.attribute}</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                            </TableRow>
+                        ))}
+                        <TableRow key={length}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>Prediction (Income)</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
+                </div>
+            );
+        } else if (props.group === 1) {
             // fact exp
             return (
                 <div className={classes.root}>
@@ -134,7 +166,7 @@ function Instance(props) {
                 </Paper>
                 </div>
             );
-        } else if (props.group === 1) {
+        } else if (props.group === 2) {
             // contrast exp
             return (
                 <div className={classes.root}>
@@ -162,6 +194,44 @@ function Instance(props) {
                                 <b>Prediction (Income)</b>
                             </CustomTableCell>
                             <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+                            <CustomTableCell align="left"><b>{contrastPred}</b></CustomTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
+                </div>
+            );
+        } else if (props.group === 3) {
+            // fact + contrast exp
+            return (
+                <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Table className={classes.table} size="small">
+                        <TableHead>
+                        <TableRow>
+                            <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+                            <CustomTableCell align="left">SUBJECT</CustomTableCell>
+                            <CustomTableCell align="left">FACT</CustomTableCell>
+                            <CustomTableCell align="left">CONTRAST</CustomTableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {rows.map(row => (
+                            <TableRow key={row.id}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>{row.attribute}</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left">{row.subjectValue}</CustomTableCell>
+                            <CustomTableCell align="left" style={factStyles[row.id]}>{row.factValue}</CustomTableCell>
+                            <CustomTableCell align="left" style={contrastStyles[row.id]}>{row.contrastValue}</CustomTableCell>
+                            </TableRow>
+                        ))}
+                        <TableRow key={length}>
+                            <CustomTableCell component="th" scope="row">
+                                <b>Prediction (Income)</b>
+                            </CustomTableCell>
+                            <CustomTableCell align="left"><b>{subjectPred}</b></CustomTableCell>
+                            <CustomTableCell align="left"><b>{factPred}</b></CustomTableCell>
                             <CustomTableCell align="left"><b>{contrastPred}</b></CustomTableCell>
                             </TableRow>
                         </TableBody>
