@@ -122,9 +122,9 @@ class HomeBase extends Component {
                         var testIdx = null;
                         test = [];
                         testIdx = [];
-                        const choice = this.getChoiceFn(snapshot1.val().test.length);
+                        const testChoice = this.getChoiceFn(snapshot1.val().test.length);
                         for (i = 0; i < this.state.testSize; i++) {
-                            const idx = choice();
+                            const idx = testChoice();
                             test.push(snapshot1.val().test[idx]);
                             testIdx.push(idx);
                         }
