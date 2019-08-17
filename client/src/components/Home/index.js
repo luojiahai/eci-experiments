@@ -51,11 +51,11 @@ class HomeBase extends Component {
     }
 
     componentDidUpdate() {
-        // this.props.firebase
-        //     .user(this.uid)
-        //     .update({
-        //         'state': this.state,
-        //     });
+        this.props.firebase
+            .user(this.uid)
+            .update({
+                'state': this.state,
+            });
     }
 
     getChoiceFn(size) {
@@ -137,6 +137,9 @@ class HomeBase extends Component {
                             'test': test,
                         };
 
+                        var str = this.email;
+                        var idx = parseInt(str.slice(4, 6), 10) % 4;
+
                         this.setState({
                             isDataFetched: true,
                             trainInstance: this.dataset.train[0].instance,
@@ -144,6 +147,7 @@ class HomeBase extends Component {
                             trainIdx: trainIdx,
                             testIdx: testIdx,
                             trainStart: Date.now(),
+                            group: idx,
                         });
 
                         this.props.firebase
