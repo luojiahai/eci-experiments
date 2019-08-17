@@ -138,7 +138,9 @@ class HomeBase extends Component {
                         };
 
                         var str = this.email;
-                        var idx = parseInt(str.slice(4, 6), 10) % 4;
+                        var idx = parseInt(str.slice(4, 7)) % 4;
+                        console.log(str.slice(4, 7))
+                        console.log(idx)
 
                         this.setState({
                             isDataFetched: true,
