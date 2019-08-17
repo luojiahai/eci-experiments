@@ -141,7 +141,7 @@ function Instance(props) {
                         <TableRow>
                             <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
                             <CustomTableCell align="left">SUBJECT</CustomTableCell>
-                            <CustomTableCell align="left">FACT</CustomTableCell>
+                            <CustomTableCell align="left">FACTUAL</CustomTableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
@@ -176,7 +176,7 @@ function Instance(props) {
                         <TableRow>
                             <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
                             <CustomTableCell align="left">SUBJECT</CustomTableCell>
-                            <CustomTableCell align="left">CONTRAST</CustomTableCell>
+                            <CustomTableCell align="left">CONTRASTIVE</CustomTableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
@@ -211,8 +211,8 @@ function Instance(props) {
                         <TableRow>
                             <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
                             <CustomTableCell align="left">SUBJECT</CustomTableCell>
-                            <CustomTableCell align="left">FACT</CustomTableCell>
-                            <CustomTableCell align="left">CONTRAST</CustomTableCell>
+                            <CustomTableCell align="left">FACTUAL</CustomTableCell>
+                            <CustomTableCell align="left">CONTRASTIVE</CustomTableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
@@ -248,8 +248,8 @@ function Instance(props) {
         //             <TableRow>
         //                 <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
         //                 <CustomTableCell align="left">SUBJECT</CustomTableCell>
-        //                 <CustomTableCell align="left">FACT</CustomTableCell>
-        //                 <CustomTableCell align="left">CONTRAST</CustomTableCell>
+        //                 <CustomTableCell align="left">FACTUAL</CustomTableCell>
+        //                 <CustomTableCell align="left">CONTRASTIVE</CustomTableCell>
         //             </TableRow>
         //             </TableHead>
         //             <TableBody>

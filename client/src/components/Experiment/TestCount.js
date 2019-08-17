@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function TestCount(props) {
     return (
         <div className="testCount">
-            TEST <span>{props.counter}</span> of <span>{props.total}</span>
+            VALIDATION <span>{props.counter}</span> of <span>{props.total}</span>
         </div>
     );
 }
