@@ -284,8 +284,8 @@ function Instance(props) {
                 <Table className={classes.table} size="small">
                     <TableHead>
                     <TableRow>
-                        <CustomTableCell><b>Attribute</b></CustomTableCell>
-                        <CustomTableCell align="left">Subject</CustomTableCell>
+                        <CustomTableCell><b>ATTRIBUTE</b></CustomTableCell>
+                        <CustomTableCell align="left">SUBJECT</CustomTableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
